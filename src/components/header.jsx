@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const Header = () => {
   const [lang, setLang] = useState("Ind");
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const [showHeader, setShowHeader] = useState(true);
+  const lastScrollY = useRef(0);
 
   const menus = [
     { label: "Tentang", link: "tentang" },
-    { label: "Menu", link: "#" },
+    { label: "Menu", link: "menu" },
     { label: "Gallery", link: "#" },
     { label: "Berita", link: "#" },
     { label: "Karir", link: "#" },
@@ -17,6 +19,7 @@ const Header = () => {
   // Scrollspy effect
   useEffect(() => {
     const handleScroll = () => {
+      // Scrollspy
       const sections = menus
         .filter(menu => menu.link !== "#")
         .map(menu => document.getElementById(menu.link));
@@ -25,87 +28,59 @@ const Header = () => {
           const rect = section.getBoundingClientRect();
           if (rect.top <= 80 && rect.bottom >= 80) {
             setActiveSection(section.id);
-            return;
+            break;
           }
         }
       }
-      setActiveSection("");
+
+      // Show/hide header on scroll
+      if (window.scrollY < 10) {
+        setShowHeader(true);
+        lastScrollY.current = window.scrollY;
+        return;
+      }
+      if (window.scrollY < lastScrollY.current) {
+        setShowHeader(true);
+      } else {
+        setShowHeader(false);
+      }
+      lastScrollY.current = window.scrollY;
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <header className="flex justify-between items-center px-8 py-4 border-b-2 border-[#09DCD5] bg-white relative">
-      {/* Logo */}
-      <div className="font-bold text-4xl">WonkCaffe</div>
-      {/* Desktop Menu */}
-      <nav className="hidden md:flex items-center gap-8">
-        {menus.map((menu, idx) => (
-          <a
-            key={idx}
-            href={menu.link !== "#" ? `#${menu.link}` : "#"}
-            className={`font-medium transition ${
-              activeSection === menu.link
-                ? "text-[#09DCD5]"
-                : "text-[#D2D0D0] hover:text-[#09DCD5]"
-            }`}
-          >
-            {menu.label}
-          </a>
-        ))}
-        {/* Language Switch */}
-        <div className="ml-6 flex gap-2">
-          <button
-            onClick={() => setLang("Ind")}
-            className={`px-3 py-1 rounded ${
-              lang === "Ind" ? "bg-[#09DCD5] text-white" : "text-[#D2D0D0]"
-            }`}
-          >
-            Ind
-          </button>
-          <button
-            onClick={() => setLang("Eng")}
-            className={`px-3 py-1 rounded ${
-              lang === "Eng" ? "bg-[#09DCD5] text-white" : "text-[#D2D0D0]"
-            }`}
-          >
-            Eng
-          </button>
-        </div>
-      </nav>
-      {/* Hamburger */}
-      <button
-        className="md:hidden flex flex-col gap-1.5 p-2"
-        onClick={() => setMenuOpen(!menuOpen)}
-        aria-label="Toggle menu"
-      >
-        <span className="block w-7 h-1 bg-gray-800 rounded"></span>
-        <span className="block w-7 h-1 bg-gray-800 rounded"></span>
-        <span className="block w-7 h-1 bg-gray-800 rounded"></span>
-      </button>
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="absolute top-full right-0 w-48 bg-white shadow-md rounded-b z-20 flex flex-col py-4 px-6 md:hidden animate-fade-in">
+    <header
+      className={`fixed top-0 left-0 w-full z-30 transition-transform duration-300 ${
+        showHeader ? "translate-y-0" : "-translate-y-full "
+      } bg-white/70 backdrop-blur-md border-b-2 border-[#09DCD5]`}
+      style={{ WebkitBackdropFilter: "blur(12px)" }}
+    >
+      <div className="flex justify-between items-center px-8 py-4 relative">
+        {/* Logo */}
+        <div className="font-bold text-4xl">WonkCaffe</div>
+        {/* Desktop Menu */}
+        <nav className="hidden md:flex items-center gap-8">
           {menus.map((menu, idx) => (
             <a
               key={idx}
               href={menu.link !== "#" ? `#${menu.link}` : "#"}
-              className={`py-2 font-medium transition ${
+              className={`font-medium transition ${
                 activeSection === menu.link
                   ? "text-[#09DCD5]"
-                  : "text-gray-800 hover:text-[#09DCD5]"
+                  : "text-[#black] hover:text-[#09DCD5]"
               }`}
-              onClick={() => setMenuOpen(false)}
             >
               {menu.label}
             </a>
           ))}
-          <div className="flex gap-2 mt-2">
+          {/* Language Switch */}
+          <div className="ml-6 flex gap-2">
             <button
               onClick={() => setLang("Ind")}
               className={`px-3 py-1 rounded ${
-                lang === "Ind" ? "bg-gray-900 text-white" : "text-gray-900"
+                lang === "Ind" ? "bg-[#09DCD5] text-white" : "text-[#black]"
               }`}
             >
               Ind
@@ -113,14 +88,61 @@ const Header = () => {
             <button
               onClick={() => setLang("Eng")}
               className={`px-3 py-1 rounded ${
-                lang === "Eng" ? "bg-gray-900 text-white" : "text-gray-900"
+                lang === "Eng" ? "bg-[#09DCD5] text-white" : "text-[#black]"
               }`}
             >
               Eng
             </button>
           </div>
-        </div>
-      )}
+        </nav>
+        {/* Hamburger */}
+        <button
+          className="md:hidden flex flex-col gap-1.5 p-2"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span className="block w-7 h-1 bg-[#09DCD5] rounded"></span>
+          <span className="block w-7 h-1 bg-[#09DCD5] rounded"></span>
+          <span className="block w-7 h-1 bg-[#09DCD5] rounded"></span>
+        </button>
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <div className="absolute top-full right-0 w-48 bg-white/80 backdrop-blur-md shadow-md rounded-b z-20 flex flex-col py-4 px-6 md:hidden animate-fade-in">
+            {menus.map((menu, idx) => (
+              <a
+                key={idx}
+                href={menu.link !== "#" ? `#${menu.link}` : "#"}
+                className={`py-2 font-medium transition ${
+                  activeSection === menu.link
+                    ? "text-[#09DCD5]"
+                    : "text-gray-800 hover:text-[#09DCD5]"
+                }`}
+                onClick={() => setMenuOpen(false)}
+              >
+                {menu.label}
+              </a>
+            ))}
+            <div className="flex gap-2 mt-2">
+              <button
+                onClick={() => setLang("Ind")}
+                className={`px-3 py-1 rounded ${
+                  lang === "Ind" ? "bg-gray-900 text-white" : "text-gray-900"
+                }`}
+              >
+                Ind
+              </button>
+              <button
+                onClick={() => setLang("Eng")}
+                className={`px-3 py-1 rounded ${
+                  lang === "Eng" ? "bg-gray-900 text-white" : "text-gray-900"
+                }`}
+              >
+                Eng
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </header>
   );
 };

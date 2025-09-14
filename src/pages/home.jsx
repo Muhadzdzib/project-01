@@ -5,7 +5,7 @@ const velocity = 50;
 
 const Home = () => {
   return (
-    <section id="tentang" className="flex flex-col h-[100vh] pt-10">
+    <section id="tentang" className="flex flex-col h-[100vh] pt-20">
       {/* Vertical 20% */}
       <div className="h-[30%] flex items-center justify-center bg-white w-full overflow-x-hidden">
         <ScrollVelocity

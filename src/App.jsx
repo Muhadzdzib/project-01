@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Home from "./pages/home";
+import Menu from "./pages/menu";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -10,6 +11,7 @@ function App() {
     <>
       <Header />
       <Home />
+      <Menu/>
     </>
   );
 }
