@@ -5,9 +5,12 @@ const velocity = 50;
 
 const Home = () => {
   return (
-    <section id="tentang" className="flex flex-col h-[100vh] pt-20">
+    <section
+      id="tentang"
+      className="flex flex-col h-[100vh] pt-20 bg-grey px-4 bg-gray-50"
+    >
       {/* Vertical 20% */}
-      <div className="h-[30%] flex items-center justify-center bg-white w-full overflow-x-hidden">
+      <div className="h-[30%] flex items-center justify-center w-full overflow-x-hidden">
         <ScrollVelocity
           texts={[
             <>
@@ -24,7 +27,7 @@ const Home = () => {
         />
       </div>
       {/* Box 80% */}
-      <div className="h-[80%] flex flex-col md:flex-row items-center justify-between bg-white px-4 md:px-8 py-4 md:py-6 shadow rounded-lg">
+      <div className="h-[80%] flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-4 md:py-6 rounded-lg">
         {/* Kiri: Heading & Penjelasan */}
         <div className="w-full md:w-1/2 pr-0 md:pr-8 mb-4 md:mb-0">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#09DCD5]">

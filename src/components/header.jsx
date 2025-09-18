@@ -10,10 +10,8 @@ const Header = () => {
   const menus = [
     { label: "Tentang", link: "tentang" },
     { label: "Menu", link: "menu" },
-    { label: "Gallery", link: "#" },
-    { label: "Berita", link: "#" },
-    { label: "Karir", link: "#" },
-    { label: "Kontak", link: "#" },
+    { label: "Gallery", link: "gallery" },
+    { label: "Kontak", link: "contact" },
   ];
 
   // Scrollspy effect
@@ -52,14 +50,14 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-30 transition-transform duration-300 ${
+      className={`fixed top-0 left-0 w-full z-400000 transition-transform duration-300 ${
         showHeader ? "translate-y-0" : "-translate-y-full "
       } bg-white/70 backdrop-blur-md border-b-2 border-[#09DCD5]`}
       style={{ WebkitBackdropFilter: "blur(12px)" }}
     >
       <div className="flex justify-between items-center px-8 py-4 relative">
         {/* Logo */}
-        <div className="font-bold text-4xl">WonkCaffe</div>
+        <div className="font-bold text-4xl">Wonk Cafe</div>
         {/* Desktop Menu */}
         <nav className="hidden md:flex items-center gap-8">
           {menus.map((menu, idx) => (

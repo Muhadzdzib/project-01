@@ -10,11 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
     "@tailwindcss/vite": "^4.1.13",
     "gsap": "^3.13.0",
+    "leaflet": "^1.9.4",
     "motion": "^12.23.12",
+    "ngrok": "^5.0.0-beta.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-icons": "^5.5.0",
+    "react-leaflet": "^5.0.0",
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
